@@ -9,10 +9,12 @@ namespace BaseBallBoardGameScoreEntity_Test
         [Fact]
         public void 初期化すると全状態がリセットされる()
         {
-            GameEntity game = new();
+            var game = new GameEntity();
+
+            game.NotifyHit(1);
             game.NotifyStrike();
             game.NotifyBall();
-            game.NotifyHit(1);
+            game.NotifyOut();
 
             game.Initialize();
 
@@ -26,64 +28,78 @@ namespace BaseBallBoardGameScoreEntity_Test
         }
 
         [Fact]
-        public void ストライクを通知するとストライク数が増える()
+        public void 表裏が切り替わり裏から表に戻るとイニングが進む()
         {
-            GameEntity game = new();
+            var game = new GameEntity();
+
+            // 初期状態は「1回表」
+            Assert.Equal(1, game.GetInningNumber());
+            Assert.Equal(1, game.GetOffensePlayerNumber()); // 表＝1
+
+            // アウト3 → 裏へ
+            game.NotifyOut();
+            game.NotifyOut();
+            game.NotifyOut();
+
+            Assert.Equal(1, game.GetInningNumber());
+            Assert.Equal(2, game.GetOffensePlayerNumber()); // 裏＝2
+
+            // 裏でアウト3 → 次イニングへ
+            game.NotifyOut();
+            game.NotifyOut();
+            game.NotifyOut();
+
+            Assert.Equal(2, game.GetInningNumber());
+            Assert.Equal(1, game.GetOffensePlayerNumber()); // 表に戻る
+        }
+
+        [Fact]
+        public void ストライク三回でアウトになり表裏が切り替わる()
+        {
+            var game = new GameEntity();
+            Assert.Equal(1, game.GetInningNumber());
+            Assert.Equal(0, game.GetOutCount());
 
             game.NotifyStrike();
+            game.NotifyStrike();
+            game.NotifyStrike(); // 1アウト
+            Assert.Equal(1, game.GetOutCount());
+
+            game.NotifyStrike();
+            game.NotifyStrike();
+            game.NotifyStrike(); // 2アウト
+            Assert.Equal(2, game.GetOutCount());
+
+            game.NotifyOut(); // 3アウトで表裏が切り替わる
+            Assert.Equal(1, game.GetInningNumber());
+            Assert.Equal(0, game.GetOutCount());
+            Assert.Equal(2, game.GetOffensePlayerNumber()); // 裏
+        }
+
+        [Fact]
+        public void ファウルはストライク2まで増える()
+        {
+            var game = new GameEntity();
+
+            game.NotifyFoul();
             Assert.Equal(1, game.GetStrikeCount());
 
-            game.NotifyStrike();
+            game.NotifyFoul();
             Assert.Equal(2, game.GetStrikeCount());
+
+            game.NotifyFoul();
+            Assert.Equal(2, game.GetStrikeCount()); // 2以上は増えない
         }
 
         [Fact]
-        public void ストライク三回でアウトになりカウントがリセットされる()
+        public void ボール四球で走者が進みカウントがリセットされる()
         {
-            GameEntity game = new();
-
-            game.NotifyStrike(); // 1
-            game.NotifyStrike(); // 2
-            game.NotifyStrike(); // 3 → OUT
-
-            Assert.Equal(0, game.GetStrikeCount());
-            Assert.Equal(0, game.GetBallCount());
-            Assert.Equal(1, game.GetOutCount());
-        }
-
-        [Fact]
-        public void ボールを通知するとボール数が増える()
-        {
-            GameEntity game = new();
+            var game = new GameEntity();
 
             game.NotifyBall();
-            Assert.Equal(1, game.GetBallCount());
-
             game.NotifyBall();
-            Assert.Equal(2, game.GetBallCount());
-        }
-
-        [Fact]
-        public void 四球になると走者が一塁に入りカウントがリセットされる()
-        {
-            GameEntity game = new();
-
-            game.NotifyBall(); // 1
-            game.NotifyBall(); // 2
-            game.NotifyBall(); // 3
-            game.NotifyBall(); // 4 → 四球
-
-            Assert.True(game.IsRunnerExists(1));
-            Assert.Equal(0, game.GetBallCount());
-            Assert.Equal(0, game.GetStrikeCount());
-        }
-
-        [Fact]
-        public void ヒットを通知すると走者が進塁しカウントがリセットされる()
-        {
-            GameEntity game = new();
-
-            game.NotifyHit(1); // 単打
+            game.NotifyBall();
+            game.NotifyBall(); // 四球
 
             Assert.True(game.IsRunnerExists(1));
             Assert.Equal(0, game.GetStrikeCount());
@@ -91,13 +107,39 @@ namespace BaseBallBoardGameScoreEntity_Test
         }
 
         [Fact]
-        public void ホームランを通知すると走者が全て帰還し得点が加算される()
+        public void 四球押し出しで得点が加算される()
         {
-            GameEntity game = new();
+            var game = new GameEntity();
 
-            // ランナーを作る
+            // 1塁 → 2塁 → 3塁 → 押し出し
+            for (int i = 0; i < 4; i++) game.NotifyBall(); // 1塁
+            for (int i = 0; i < 4; i++) game.NotifyBall(); // 2塁
+            for (int i = 0; i < 4; i++) game.NotifyBall(); // 3塁
+            for (int i = 0; i < 4; i++) game.NotifyBall(); // 押し出し
+
+            Assert.Equal(1, game.GetTotalScore());
+        }
+
+        [Fact]
+        public void ヒットで走者が進み得点が加算される()
+        {
+            var game = new GameEntity();
+
+            game.NotifyHit(1); // 打者 → 1塁
+            Assert.True(game.IsRunnerExists(1));
+
+            game.NotifyHit(3); // 1塁走者 → ホームイン
+            Assert.Equal(1, game.GetTotalScore());
+            Assert.True(game.IsRunnerExists(3)); // 打者が3塁
+        }
+
+        [Fact]
+        public void ホームランで全走者が帰還し得点が加算される()
+        {
+            var game = new GameEntity();
+
             game.NotifyHit(1); // 1塁
-            game.NotifyHit(1); // 1塁 → 2塁
+            game.NotifyHit(1); // 2塁
 
             game.NotifyHomeRun();
 
@@ -109,47 +151,43 @@ namespace BaseBallBoardGameScoreEntity_Test
         }
 
         [Fact]
-        public void アウトを通知するとアウト数が増える()
+        public void アウト三回で表裏が切り替わり裏から表に戻るとイニングが進む()
         {
-            GameEntity game = new();
+            var game = new GameEntity();
 
+            // 表 → 裏
             game.NotifyOut();
-            Assert.Equal(1, game.GetOutCount());
-
             game.NotifyOut();
-            Assert.Equal(2, game.GetOutCount());
-        }
+            game.NotifyOut();
+            Assert.Equal(2, game.GetOffensePlayerNumber());
 
-        [Fact]
-        public void アウト三回でイニングが進みアウトカウントがリセットされる()
-        {
-            GameEntity game = new();
-
-            game.NotifyOut(); // 1
-            game.NotifyOut(); // 2
-            game.NotifyOut(); // 3 → イニング終了
-
-            Assert.Equal(0, game.GetOutCount());
-            Assert.Equal(2, game.GetInningNumber()); // 1 → 2
+            // 裏 → 次イニング表
+            game.NotifyOut();
+            game.NotifyOut();
+            game.NotifyOut();
+            Assert.Equal(2, game.GetInningNumber());
+            Assert.Equal(1, game.GetOffensePlayerNumber());
         }
 
         [Fact]
         public void クローンは全ての状態を正しく複製する()
         {
-            GameEntity game = new();
+            var game = new GameEntity();
 
             game.NotifyHit(1);
             game.NotifyStrike();
             game.NotifyBall();
-            game.NotifyOut();
+            game.NotifyOut(); // 表→裏へ切り替わる
 
-            GameEntity cloned = game.Clone();
+            var clone = game.Clone();
 
-            Assert.Equal(game.GetStrikeCount(), cloned.GetStrikeCount());
-            Assert.Equal(game.GetBallCount(), cloned.GetBallCount());
-            Assert.Equal(game.GetOutCount(), cloned.GetOutCount());
-            Assert.Equal(game.GetTotalScore(), cloned.GetTotalScore());
-            Assert.Equal(game.IsRunnerExists(1), cloned.IsRunnerExists(1));
+            Assert.Equal(game.GetStrikeCount(), clone.GetStrikeCount());
+            Assert.Equal(game.GetBallCount(), clone.GetBallCount());
+            Assert.Equal(game.GetOutCount(), clone.GetOutCount());
+            Assert.Equal(game.GetTotalScore(), clone.GetTotalScore());
+            Assert.Equal(game.GetInningNumber(), clone.GetInningNumber());
+            Assert.Equal(game.GetOffensePlayerNumber(), clone.GetOffensePlayerNumber());
+            Assert.Equal(game.IsRunnerExists(1), clone.IsRunnerExists(1));
         }
     }
 }

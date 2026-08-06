@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.MainPage">
 
-    <Grid BackgroundColor="Black">
+    <Grid x:Name="BoardContainer" BackgroundColor="Black"
+          WidthRequest="1120" HeightRequest="630">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="2*"/>
@@ -60,7 +62,7 @@
                            WidthRequest="50" HeightRequest="50" Margin="20"
                            Rotation="45"/>
 
-                <Rectangle Grid.Column="1" Grid.Row="2" Background="#363636"
+                <Rectangle Grid.Column="1" Grid.Row="2" Background="White"
                            WidthRequest="50" HeightRequest="50" Margin="20"
                            Rotation="45"/>
 

@@ -5,7 +5,8 @@
         #region Fields ====================================================================================================
 
         private int _inning = 1;
-        private int[] _scores = new int[30]; // 最大30イニング分確保（十分）
+        private int[] _scores = new int[3];
+        private bool _isOmote = true;
 
         #endregion
 
@@ -17,7 +18,7 @@
 
         #region Public Methods ==============================================================================================
 
-        public static int GetOffensePlayerNumber() => 1; // 今回不要なので固定値でOK
+        public int GetOffensePlayerNumber() => _isOmote ? 1 : 2;
 
         public int GetInningNumber() => _inning;
 
@@ -40,7 +41,12 @@
 
         public void Next()
         {
-            _inning++;
+            _isOmote = !_isOmote;
+
+            if (_isOmote)
+            {
+                _inning++;
+            }
         }
 
         public ScoreEntity Clone()
@@ -48,7 +54,8 @@
             ScoreEntity clone = new()
             {
                 _inning = _inning,
-                _scores = (int[])_scores.Clone()
+                _scores = (int[])_scores.Clone(),
+                _isOmote = _isOmote
             };
             return clone;
         }

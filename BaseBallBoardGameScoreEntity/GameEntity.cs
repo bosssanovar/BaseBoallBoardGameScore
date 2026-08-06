@@ -40,7 +40,7 @@
 
         public int GetOffensePlayerNumber()
         {
-            return ScoreEntity.GetOffensePlayerNumber();
+            return _score.GetOffensePlayerNumber();
         }
 
         public int GetInningNumber()

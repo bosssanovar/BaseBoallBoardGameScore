@@ -6,5 +6,11 @@
         {
             InitializeComponent();
         }
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+            double scale = Math.Min(width / BoardContainer.WidthRequest, height / BoardContainer.HeightRequest);
+            BoardContainer.Scale = scale;
+        }
     }
 }
