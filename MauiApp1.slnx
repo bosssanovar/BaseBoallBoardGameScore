@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="BaseBallBoardGameScoreEntity/BaseBallBoardGameScoreEntity.csproj" Id="0cdedbe7-62b1-4b32-aa56-cc887e864782" />
+  <Project Path="BaseBallBoardGameScoreEntity_Test/BaseBallBoardGameScoreEntity_Test.csproj" Id="cf10df01-c0e8-4b2b-b7f5-644d0a1f4bc5" />
   <Project Path="MauiApp1/MauiApp1.csproj">
     <Deploy Solution="Debug|*" />
   </Project>
