@@ -17,7 +17,7 @@
 
         #region Public Methods ==============================================================================================
 
-        public int GetOffensePlayerNumber() => 1; // 今回不要なので固定値でOK
+        public static int GetOffensePlayerNumber() => 1; // 今回不要なので固定値でOK
 
         public int GetInningNumber() => _inning;
 
@@ -45,9 +45,11 @@
 
         public ScoreEntity Clone()
         {
-            ScoreEntity clone = new ScoreEntity();
-            clone._inning = _inning;
-            clone._scores = (int[])_scores.Clone();
+            ScoreEntity clone = new()
+            {
+                _inning = _inning,
+                _scores = (int[])_scores.Clone()
+            };
             return clone;
         }
 

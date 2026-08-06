@@ -29,16 +29,18 @@
 
         public GameEntity Clone()
         {
-            GameEntity cloned = new();
-            cloned._score = _score.Clone();
-            cloned._count = _count.Clone();
-            cloned._runner = _runner.Clone();
+            GameEntity cloned = new()
+            {
+                _score = _score.Clone(),
+                _count = _count.Clone(),
+                _runner = _runner.Clone()
+            };
             return cloned;
         }
 
         public int GetOffensePlayerNumber()
         {
-            return _score.GetOffensePlayerNumber();
+            return ScoreEntity.GetOffensePlayerNumber();
         }
 
         public int GetInningNumber()

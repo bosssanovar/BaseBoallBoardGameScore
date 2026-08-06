@@ -96,8 +96,10 @@
 
         internal RunnerEntity Clone()
         {
-            RunnerEntity clone = new RunnerEntity();
-            clone._bases = (bool[])_bases.Clone();
+            RunnerEntity clone = new()
+            {
+                _bases = (bool[])_bases.Clone()
+            };
             return clone;
         }
 
