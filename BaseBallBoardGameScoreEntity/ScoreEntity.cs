@@ -5,7 +5,7 @@
         #region Fields ====================================================================================================
 
         private int _inning = 1;
-        private int[] _scores = new int[3];
+        private UraOmoteScore[] _scores = new UraOmoteScore[3];
         private bool _isOmote = true;
 
         #endregion
@@ -14,6 +14,15 @@
         #endregion
 
         #region Constructors ================================================================================================
+        
+        public ScoreEntity()
+        {
+            _scores[0] = new UraOmoteScore()
+            {
+                OmoteScore = 0
+            };
+        }
+
         #endregion
 
         #region Public Methods ==============================================================================================
@@ -22,21 +31,35 @@
 
         public int GetInningNumber() => _inning;
 
-        public int GetInningScore(int inningNumber)
+        public int? GetInningScore(int inningNumber, bool isOmote)
         {
-            return _scores[inningNumber - 1];
+            return isOmote ? _scores[inningNumber - 1].OmoteScore : _scores[inningNumber - 1].UraScore;
         }
 
-        public int GetTotalScore()
+        public int GetTotalScore(bool isOmote)
         {
             int total = 0;
-            foreach (var s in _scores) total += s;
+            foreach (var s in _scores)
+            {
+                if (s is not null)
+                {
+                    total += isOmote ? s.OmoteScore ?? 0 : s.UraScore ?? 0;
+                }
+            }
+
             return total;
         }
 
         public void AddScore(int count)
         {
-            _scores[_inning - 1] += count;
+            if (_isOmote)
+            {
+                _scores[_inning - 1].OmoteScore += count;
+            }
+            else
+            {
+                _scores[_inning - 1].UraScore += count;
+            }
         }
 
         public void Next()
@@ -47,6 +70,17 @@
             {
                 _inning++;
             }
+
+            _scores[_inning - 1] ??= new UraOmoteScore();
+
+            if (_isOmote)
+            {
+                _scores[_inning - 1].OmoteScore ??= 0;
+            }
+            else
+            {
+                _scores[_inning - 1].UraScore ??= 0;
+            }
         }
 
         public ScoreEntity Clone()
@@ -54,7 +88,7 @@
             ScoreEntity clone = new()
             {
                 _inning = _inning,
-                _scores = (int[])_scores.Clone(),
+                _scores = (UraOmoteScore[])_scores.Clone(),
                 _isOmote = _isOmote
             };
             return clone;
@@ -63,9 +97,17 @@
         #endregion
 
         #region Private Methods =============================================================================================
+
         #endregion
 
         #region Helpers =====================================================================================================
+
+        class UraOmoteScore
+        {
+            public int? OmoteScore { get; set; }
+            public int? UraScore { get; set; }
+        }
+
         #endregion
     }
 }

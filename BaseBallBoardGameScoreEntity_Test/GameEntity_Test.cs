@@ -21,7 +21,7 @@ namespace BaseBallBoardGameScoreEntity_Test
             Assert.Equal(0, game.GetStrikeCount());
             Assert.Equal(0, game.GetBallCount());
             Assert.Equal(0, game.GetOutCount());
-            Assert.Equal(0, game.GetTotalScore());
+            Assert.Equal(0, game.GetTotalScore(true));
             Assert.False(game.IsRunnerExists(1));
             Assert.False(game.IsRunnerExists(2));
             Assert.False(game.IsRunnerExists(3));
@@ -117,7 +117,7 @@ namespace BaseBallBoardGameScoreEntity_Test
             for (int i = 0; i < 4; i++) game.NotifyBall(); // 3塁
             for (int i = 0; i < 4; i++) game.NotifyBall(); // 押し出し
 
-            Assert.Equal(1, game.GetTotalScore());
+            Assert.Equal(1, game.GetTotalScore(true));
         }
 
         [Fact]
@@ -129,7 +129,7 @@ namespace BaseBallBoardGameScoreEntity_Test
             Assert.True(game.IsRunnerExists(1));
 
             game.NotifyHit(3); // 1塁走者 → ホームイン
-            Assert.Equal(1, game.GetTotalScore());
+            Assert.Equal(1, game.GetTotalScore(true));
             Assert.True(game.IsRunnerExists(3)); // 打者が3塁
         }
 
@@ -147,7 +147,7 @@ namespace BaseBallBoardGameScoreEntity_Test
             Assert.False(game.IsRunnerExists(2));
             Assert.False(game.IsRunnerExists(3));
 
-            Assert.Equal(3, game.GetTotalScore()); // 打者 + 2走者
+            Assert.Equal(3, game.GetTotalScore(true)); // 打者 + 2走者
         }
 
         [Fact]
@@ -184,7 +184,7 @@ namespace BaseBallBoardGameScoreEntity_Test
             Assert.Equal(game.GetStrikeCount(), clone.GetStrikeCount());
             Assert.Equal(game.GetBallCount(), clone.GetBallCount());
             Assert.Equal(game.GetOutCount(), clone.GetOutCount());
-            Assert.Equal(game.GetTotalScore(), clone.GetTotalScore());
+            Assert.Equal(game.GetTotalScore(true), clone.GetTotalScore(true));
             Assert.Equal(game.GetInningNumber(), clone.GetInningNumber());
             Assert.Equal(game.GetOffensePlayerNumber(), clone.GetOffensePlayerNumber());
             Assert.Equal(game.IsRunnerExists(1), clone.IsRunnerExists(1));

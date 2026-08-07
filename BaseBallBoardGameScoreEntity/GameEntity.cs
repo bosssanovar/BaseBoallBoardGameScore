@@ -48,14 +48,14 @@
             return _score.GetInningNumber();
         }
 
-        public int GetInningScore(int inningNumber)
+        public int? GetInningScore(int inningNumber, bool isOmote)
         {
-            return _score.GetInningScore(inningNumber);
+            return _score.GetInningScore(inningNumber, isOmote);
         }
 
-        public int GetTotalScore()
+        public int GetTotalScore(bool isOmote)
         {
-            return _score.GetTotalScore();
+            return _score.GetTotalScore(isOmote);
         }
 
         public int GetStrikeCount()
