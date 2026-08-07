@@ -58,11 +58,11 @@
         internal void NotifyOut(out bool isInningEnd)
         {
             _out++;
+            ResetStrikeAndBall();
 
             if (_out >= 3)
             {
                 _out = 0;
-                ResetStrikeAndBall();
                 isInningEnd = true;
                 return;
             }

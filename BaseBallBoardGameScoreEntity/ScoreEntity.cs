@@ -33,6 +33,11 @@
 
         public int? GetInningScore(int inningNumber, bool isOmote)
         {
+            if(_scores[inningNumber - 1] is null)
+            {
+                return null;
+            }
+
             return isOmote ? _scores[inningNumber - 1].OmoteScore : _scores[inningNumber - 1].UraScore;
         }
 

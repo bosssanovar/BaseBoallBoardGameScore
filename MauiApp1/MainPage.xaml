@@ -4,7 +4,7 @@
              x:Class="MauiApp1.MainPage">
 
     <Grid x:Name="BoardContainer" BackgroundColor="Black"
-          WidthRequest="1120" HeightRequest="630">
+          WidthRequest="1120" HeightRequest="630" Padding="5">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -17,27 +17,120 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Row="0" Grid.Column="0"
-                StrokeThickness="0" Background="#252525" Margin="5">
+                StrokeThickness="0" Background="#1f1f1f" Margin="5">
             
         </Border>
 
         <Border Grid.Row="0" Grid.Column="1"
-                StrokeThickness="0" Background="#252525" Margin="5">
-            
+                StrokeThickness="0" Background="#1f1f1f" Margin="5">
+            <Grid Margin="5" ColumnSpacing="5" RowSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" Grid.Column="1" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="1" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="2" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="2" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="3" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="3" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="4" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="合計" FontSize="40"/>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="0"
+                        Background="{x:Binding OmotePlayerBackground.Value}" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="プレイヤー1" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{x:Binding Omote1Score.Value}" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{x:Binding Omote2Score.Value}" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="3" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{x:Binding Omote3Score.Value}" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="4" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{x:Binding OmoteTotalScore.Value}" FontSize="40"/>
+                </Border>
+
+                <Border Grid.Row="2" Grid.Column="0"
+                        Background="{x:Binding UraPlayerBackground.Value}" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="プレイヤー2" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{x:Binding Ura1Score.Value}" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="2" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{x:Binding Ura2Score.Value}" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="3" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{x:Binding Ura3Score.Value}" FontSize="40"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="4" Background="Black" StrokeThickness="0">
+                    <Label HorizontalOptions="Center" VerticalOptions="Center"
+                           Text="{x:Binding UraTotalScore.Value}" FontSize="40"/>
+                </Border>
+            </Grid>
         </Border>
 
         <Border Grid.Row="0" Grid.Column="2"
-                StrokeThickness="0" Background="#252525" Margin="5">
-            
+                StrokeThickness="0" Background="#1f1f1f" Margin="5">
+            <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
+                    Text="初期化" BackgroundColor="#000033" FontSize="25" TextColor="White"
+                    Command="{x:Binding InitializeCommand}"/>
         </Border>
 
         <Border Grid.Row="1" Grid.Column="0"
-                StrokeThickness="0" Background="#252525" Margin="5">
+                StrokeThickness="0" Background="#1f1f1f" Margin="5">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
+                    Text="ボール" BackgroundColor="#000033" FontSize="25" TextColor="White"
+                    Command="{x:Binding BallCommand}"/>
+                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
+                    Text="ストライク" BackgroundColor="#000033" FontSize="25" TextColor="White"
+                    Command="{x:Binding StrikeCommand}"/>
+
+                <Border HeightRequest="30" StrokeThickness="0"/>
+
+                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
+                    Text="ファール" BackgroundColor="#000033" FontSize="25" TextColor="White"
+                    Command="{x:Binding FoulCommand}"/>
+                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
+                    Text="アウト" BackgroundColor="#000033" FontSize="25" TextColor="White"
+                    Command="{x:Binding OutCommand}"/>
+            </VerticalStackLayout>
             
         </Border>
 
         <Border Grid.Row="1" Grid.Column="1"
-                StrokeThickness="0" Background="#252525" Margin="5">
+                StrokeThickness="0" Background="#1f1f1f" Margin="5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -50,15 +143,15 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Rectangle Grid.Column="1" Grid.Row="0" Background="#363636"
+                <Rectangle Grid.Column="1" Grid.Row="0" Background="{x:Binding Base2Brush.Value}"
                            WidthRequest="50" HeightRequest="50" Margin="20"
                            Rotation="45"/>
 
-                <Rectangle Grid.Column="0" Grid.Row="1" Background="#363636"
+                <Rectangle Grid.Column="0" Grid.Row="1" Background="{x:Binding Base3Brush.Value}"
                            WidthRequest="50" HeightRequest="50" Margin="20"
                            Rotation="45"/>
 
-                <Rectangle Grid.Column="2" Grid.Row="1" Background="#363636"
+                <Rectangle Grid.Column="2" Grid.Row="1" Background="{x:Binding Base1Brush.Value}"
                            WidthRequest="50" HeightRequest="50" Margin="20"
                            Rotation="45"/>
 
@@ -66,8 +159,8 @@
                            WidthRequest="50" HeightRequest="50" Margin="20"
                            Rotation="45"/>
 
-                <Grid Grid.Column="1" Grid.Row="1"
-                      HorizontalOptions="Center" VerticalOptions="End"
+                <Grid Grid.Column="1" Grid.Row="1" Margin="100,0,0,0"
+                      HorizontalOptions="Start" VerticalOptions="End"
                       ColumnSpacing="5" RowSpacing="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -83,37 +176,37 @@
 
                     <Label Grid.Column="0" Grid.Row="0" HorizontalOptions="End"
                            Text="ボール" FontSize="30" Margin="0,0,20,0"/>
-                    <Ellipse Grid.Column="1" Grid.Row="0"
+                    <Ellipse Grid.Column="1" Grid.Row="0" IsVisible="{x:Binding Ball1Visibility.Value}"
                              HorizontalOptions="Center" VerticalOptions="Center"
                              WidthRequest="30" HeightRequest="30"
                              BackgroundColor="White"/>
-                    <Ellipse Grid.Column="2" Grid.Row="0"
+                    <Ellipse Grid.Column="2" Grid.Row="0" IsVisible="{x:Binding Ball2Visibility.Value}"
                              HorizontalOptions="Center" VerticalOptions="Center"
                              WidthRequest="30" HeightRequest="30"
                              BackgroundColor="White"/>
-                    <Ellipse Grid.Column="3" Grid.Row="0"
+                    <Ellipse Grid.Column="3" Grid.Row="0" IsVisible="{x:Binding Ball3Visibility.Value}"
                              HorizontalOptions="Center" VerticalOptions="Center"
                              WidthRequest="30" HeightRequest="30"
                              BackgroundColor="White"/>
 
                     <Label Grid.Column="0" Grid.Row="1" HorizontalOptions="End"
                            Text="ストライク" FontSize="30" Margin="0,0,20,0"/>
-                    <Ellipse Grid.Column="1" Grid.Row="1"
+                    <Ellipse Grid.Column="1" Grid.Row="1" IsVisible="{x:Binding Strike1Visibility.Value}"
                              HorizontalOptions="Center" VerticalOptions="Center"
                              WidthRequest="30" HeightRequest="30"
                              BackgroundColor="White"/>
-                    <Ellipse Grid.Column="2" Grid.Row="1"
+                    <Ellipse Grid.Column="2" Grid.Row="1" IsVisible="{x:Binding Strike2Visibility.Value}"
                              HorizontalOptions="Center" VerticalOptions="Center"
                              WidthRequest="30" HeightRequest="30"
                              BackgroundColor="White"/>
 
                     <Label Grid.Column="0" Grid.Row="2" HorizontalOptions="End"
                            Text="アウト" FontSize="30" Margin="0,0,20,0"/>
-                    <Ellipse Grid.Column="1" Grid.Row="2"
+                    <Ellipse Grid.Column="1" Grid.Row="2" IsVisible="{x:Binding Out1Visibility.Value}"
                              HorizontalOptions="Center" VerticalOptions="Center"
                              WidthRequest="30" HeightRequest="30"
                              BackgroundColor="Red"/>
-                    <Ellipse Grid.Column="2" Grid.Row="2"
+                    <Ellipse Grid.Column="2" Grid.Row="2" IsVisible="{x:Binding Out2Visibility.Value}"
                              HorizontalOptions="Center" VerticalOptions="Center"
                              WidthRequest="30" HeightRequest="30"
                              BackgroundColor="Red"/>
@@ -122,8 +215,22 @@
         </Border>
 
         <Border Grid.Row="1" Grid.Column="2"
-                StrokeThickness="0" Background="#252525" Margin="5">
-            
+                StrokeThickness="0" Background="#1f1f1f" Margin="5">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
+                    Text="シングルヒット" BackgroundColor="#000033" FontSize="25" TextColor="White"
+                    Command="{x:Binding SingleHitCommand}"/>
+                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
+                    Text="2ベースヒット" BackgroundColor="#000033" FontSize="25" TextColor="White"
+                    Command="{x:Binding TwoBaseHitCommand}"/>
+                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
+                    Text="3ベースヒット" BackgroundColor="#000033" FontSize="25" TextColor="White"
+                    Command="{x:Binding ThreeBaseHitCommand}"/>
+                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
+                    Text="ホームラン" BackgroundColor="#000033" FontSize="25" TextColor="White"
+                    Command="{x:Binding HomeRunCommand}"/>
+            </VerticalStackLayout>
+
         </Border>
     </Grid>
 

@@ -33,13 +33,13 @@ namespace MauiApp1
         public ReadOnlyReactivePropertySlim<SolidColorBrush?> Base2Brush { get; }
         public ReadOnlyReactivePropertySlim<SolidColorBrush?> Base3Brush { get; }
 
-        public ReadOnlyReactivePropertySlim<Visibility> Ball1Visibility { get; }
-        public ReadOnlyReactivePropertySlim<Visibility> Ball2Visibility { get; }
-        public ReadOnlyReactivePropertySlim<Visibility> Ball3Visibility { get; }
-        public ReadOnlyReactivePropertySlim<Visibility> Strike1Visibility { get; }
-        public ReadOnlyReactivePropertySlim<Visibility> Strike2Visibility { get; }
-        public ReadOnlyReactivePropertySlim<Visibility> Out1Visibility { get; }
-        public ReadOnlyReactivePropertySlim<Visibility> Out2Visibility { get; }
+        public ReadOnlyReactivePropertySlim<bool> Ball1Visibility { get; }
+        public ReadOnlyReactivePropertySlim<bool> Ball2Visibility { get; }
+        public ReadOnlyReactivePropertySlim<bool> Ball3Visibility { get; }
+        public ReadOnlyReactivePropertySlim<bool> Strike1Visibility { get; }
+        public ReadOnlyReactivePropertySlim<bool> Strike2Visibility { get; }
+        public ReadOnlyReactivePropertySlim<bool> Out1Visibility { get; }
+        public ReadOnlyReactivePropertySlim<bool> Out2Visibility { get; }
 
         public ReactiveCommand BallCommand { get; } = new();
         public ReactiveCommand StrikeCommand { get; } = new();
@@ -50,6 +50,7 @@ namespace MauiApp1
         public ReactiveCommand TwoBaseHitCommand { get; } = new();
         public ReactiveCommand ThreeBaseHitCommand { get; } = new();
         public ReactiveCommand HomeRunCommand { get; } = new();
+        public ReactiveCommand InitializeCommand { get; } = new();
 
         #endregion
 
@@ -62,16 +63,16 @@ namespace MauiApp1
                 .Select(
                     x =>
                     x.GetOffensePlayerNumber() == 1
-                    ? new SolidColorBrush(Colors.Yellow)
-                    : new SolidColorBrush(Color.FromArgb("#252525")))
+                    ? new SolidColorBrush(Color.FromArgb("#555500"))
+                    : new SolidColorBrush(Colors.Black))
                 .ToReadOnlyReactivePropertySlim();
             UraPlayerBackground =
                 _model.GameEntity
                 .Select(
                     x =>
                     x.GetOffensePlayerNumber() == 2
-                    ? new SolidColorBrush(Colors.Yellow)
-                    : new SolidColorBrush(Color.FromArgb("#252525")))
+                    ? new SolidColorBrush(Color.FromArgb("#555500"))
+                    : new SolidColorBrush(Colors.Black))
                 .ToReadOnlyReactivePropertySlim();
             Omote1Score =
                 _model.GameEntity
@@ -121,65 +122,70 @@ namespace MauiApp1
 
             Ball1Visibility =
                 _model.GameEntity
-                .Select(x => x.GetBallCount() > 0 ? Visibility.Visible : Visibility.Collapsed)
+                .Select(x => x.GetBallCount() > 0 ? true : false)
                 .ToReadOnlyReactivePropertySlim();
             Ball2Visibility =
                 _model.GameEntity
-                .Select(x => x.GetBallCount() > 1 ? Visibility.Visible : Visibility.Collapsed)
+                .Select(x => x.GetBallCount() > 1 ? true : false)
                 .ToReadOnlyReactivePropertySlim();
             Ball3Visibility =
                 _model.GameEntity
-                .Select(x => x.GetBallCount() > 2 ? Visibility.Visible : Visibility.Collapsed)
+                .Select(x => x.GetBallCount() > 2 ? true : false)
                 .ToReadOnlyReactivePropertySlim();
             Strike1Visibility =
                 _model.GameEntity
-                .Select(x => x.GetStrikeCount() > 0 ? Visibility.Visible : Visibility.Collapsed)
+                .Select(x => x.GetStrikeCount() > 0 ? true : false)
                 .ToReadOnlyReactivePropertySlim();
             Strike2Visibility =
                 _model.GameEntity
-                .Select(x => x.GetStrikeCount() > 1 ? Visibility.Visible : Visibility.Collapsed)
+                .Select(x => x.GetStrikeCount() > 1 ? true : false)
                 .ToReadOnlyReactivePropertySlim();
             Out1Visibility =
                 _model.GameEntity
-                .Select(x => x.GetOutCount() > 0 ? Visibility.Visible : Visibility.Collapsed)
+                .Select(x => x.GetOutCount() > 0 ? true : false)
                 .ToReadOnlyReactivePropertySlim();
             Out2Visibility =
                 _model.GameEntity
-                .Select(x => x.GetOutCount() > 1 ? Visibility.Visible : Visibility.Collapsed)
+                .Select(x => x.GetOutCount() > 1 ? true : false)
                 .ToReadOnlyReactivePropertySlim();
 
             BallCommand.Subscribe(() =>
             {
-                _model.GameEntity.Value.NotifyBall();
+                _model.NotifyBall();
             });
             StrikeCommand.Subscribe(() =>
             {
-                _model.GameEntity.Value.NotifyStrike();
+                _model.NotifyStrike();
             });
 
             FoulCommand.Subscribe(() =>
             {
-                _model.GameEntity.Value.NotifyFoul();
+                _model.NotifyFoul();
             });
             OutCommand.Subscribe(() =>
             {
-                _model.GameEntity.Value.NotifyOut();
+                _model.NotifyOut();
             });
             SingleHitCommand.Subscribe(() =>
             {
-                _model.GameEntity.Value.NotifyHit(1);
+                _model.NotifyHit(1);
             });
             TwoBaseHitCommand.Subscribe(() =>
             {
-                _model.GameEntity.Value.NotifyHit(2);
+                _model.NotifyHit(2);
             });
             ThreeBaseHitCommand.Subscribe(() =>
             {
-                _model.GameEntity.Value.NotifyHit(3);
+                _model.NotifyHit(3);
             });
             HomeRunCommand.Subscribe(() =>
             {
-                _model.GameEntity.Value.NotifyHomeRun();
+                _model.NotifyHomeRun();
+            });
+
+            InitializeCommand.Subscribe(() =>
+            {
+                _model.Initialize();
             });
         }
 
@@ -195,7 +201,7 @@ namespace MauiApp1
             return
                 isRunnerExists
                 ? new SolidColorBrush(Colors.White)
-                : new SolidColorBrush(Color.FromArgb("#1f1f1f"));
+                : new SolidColorBrush(Color.FromArgb("#363636"));
         }
 
         #endregion
