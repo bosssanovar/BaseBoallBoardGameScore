@@ -3,32 +3,38 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiApp1.MainPage">
 
-    <Grid x:Name="BoardContainer" BackgroundColor="Black"
-          WidthRequest="1120" HeightRequest="630" Padding="5">
-        
+    <Grid x:Name="BoardContainer"
+          HorizontalOptions="Fill"
+          VerticalOptions="Fill"
+          Padding="5"
+          BackgroundColor="Black">
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <!-- 左上 -->
         <Border Grid.Row="0" Grid.Column="0"
-                StrokeThickness="0" Background="#1f1f1f" Margin="5">
-            
-        </Border>
+                StrokeThickness="0" Background="#1f1f1f" Margin="3"/>
 
+        <!-- 中央上（スコア表） -->
         <Border Grid.Row="0" Grid.Column="1"
-                StrokeThickness="0" Background="#1f1f1f" Margin="5">
-            <Grid Margin="5" ColumnSpacing="5" RowSpacing="5">
+                StrokeThickness="0" Background="#1f1f1f" Margin="3">
+
+            <Grid Margin="15" ColumnSpacing="5" RowSpacing="5">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
@@ -37,136 +43,174 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Row="0" Grid.Column="1" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="1" FontSize="40"/>
+                <!-- 見出し -->
+                <Border Grid.Row="0" Grid.Column="1" Background="Black">
+                    <Label Text="1" HorizontalOptions="Center" VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
-                <Border Grid.Row="0" Grid.Column="2" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="2" FontSize="40"/>
+                <Border Grid.Row="0" Grid.Column="2" Background="Black">
+                    <Label Text="2" HorizontalOptions="Center" VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
-                <Border Grid.Row="0" Grid.Column="3" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="3" FontSize="40"/>
+                <Border Grid.Row="0" Grid.Column="3" Background="Black">
+                    <Label Text="3" HorizontalOptions="Center" VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
-                <Border Grid.Row="0" Grid.Column="4" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="合計" FontSize="40"/>
+                <Border Grid.Row="0" Grid.Column="4" Background="Black">
+                    <Label Text="合計" HorizontalOptions="Center" VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
 
+                <!-- プレイヤー1 -->
                 <Border Grid.Row="1" Grid.Column="0"
-                        Background="{x:Binding OmotePlayerBackground.Value}" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="プレイヤー1" FontSize="40"/>
-                </Border>
-                <Border Grid.Row="1" Grid.Column="1" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="{x:Binding Omote1Score.Value}" FontSize="40"/>
-                </Border>
-                <Border Grid.Row="1" Grid.Column="2" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="{x:Binding Omote2Score.Value}" FontSize="40"/>
-                </Border>
-                <Border Grid.Row="1" Grid.Column="3" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="{x:Binding Omote3Score.Value}" FontSize="40"/>
-                </Border>
-                <Border Grid.Row="1" Grid.Column="4" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="{x:Binding OmoteTotalScore.Value}" FontSize="40"/>
+                        Background="{x:Binding OmotePlayerBackground.Value}">
+                    <Label Text="プレイヤー1" HorizontalOptions="Center" VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
 
+                <Border Grid.Row="1" Grid.Column="1" Background="Black">
+                    <Label Text="{x:Binding Omote1Score.Value}" HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" Background="Black">
+                    <Label Text="{x:Binding Omote2Score.Value}" HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="3" Background="Black">
+                    <Label Text="{x:Binding Omote3Score.Value}" HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                </Border>
+                <Border Grid.Row="1" Grid.Column="4" Background="Black">
+                    <Label Text="{x:Binding OmoteTotalScore.Value}" HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                </Border>
+
+                <!-- プレイヤー2 -->
                 <Border Grid.Row="2" Grid.Column="0"
-                        Background="{x:Binding UraPlayerBackground.Value}" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="プレイヤー2" FontSize="40"/>
+                        Background="{x:Binding UraPlayerBackground.Value}">
+                    <Label Text="プレイヤー2" HorizontalOptions="Center" VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
-                <Border Grid.Row="2" Grid.Column="1" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="{x:Binding Ura1Score.Value}" FontSize="40"/>
+
+                <Border Grid.Row="2" Grid.Column="1" Background="Black">
+                    <Label Text="{x:Binding Ura1Score.Value}" HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
-                <Border Grid.Row="2" Grid.Column="2" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="{x:Binding Ura2Score.Value}" FontSize="40"/>
+                <Border Grid.Row="2" Grid.Column="2" Background="Black">
+                    <Label Text="{x:Binding Ura2Score.Value}" HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
-                <Border Grid.Row="2" Grid.Column="3" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="{x:Binding Ura3Score.Value}" FontSize="40"/>
+                <Border Grid.Row="2" Grid.Column="3" Background="Black">
+                    <Label Text="{x:Binding Ura3Score.Value}" HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
-                <Border Grid.Row="2" Grid.Column="4" Background="Black" StrokeThickness="0">
-                    <Label HorizontalOptions="Center" VerticalOptions="Center"
-                           Text="{x:Binding UraTotalScore.Value}" FontSize="40"/>
+                <Border Grid.Row="2" Grid.Column="4" Background="Black">
+                    <Label Text="{x:Binding UraTotalScore.Value}" HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="{OnPlatform Android=30, WinUI=30}" />
                 </Border>
             </Grid>
         </Border>
 
+        <!-- 初期化ボタン -->
         <Border Grid.Row="0" Grid.Column="2"
-                StrokeThickness="0" Background="#1f1f1f" Margin="5">
-            <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
-                    Text="初期化" BackgroundColor="#000033" FontSize="25" TextColor="White"
-                    Command="{x:Binding InitializeCommand}"/>
+                StrokeThickness="0" Background="#1f1f1f" Margin="3">
+            <Button Text="初期化" Padding="40,20" HorizontalOptions="Center" VerticalOptions="Center"
+                    BackgroundColor="#000033" TextColor="White"
+                    FontSize="{OnPlatform Android=20, WinUI=25}"
+                    Command="{x:Binding InitializeCommand}" />
         </Border>
 
+        <!-- 左下（ボタン群） -->
         <Border Grid.Row="1" Grid.Column="0"
-                StrokeThickness="0" Background="#1f1f1f" Margin="5">
-            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
-                    Text="ボール" BackgroundColor="#000033" FontSize="25" TextColor="White"
-                    Command="{x:Binding BallCommand}"/>
-                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
-                    Text="ストライク" BackgroundColor="#000033" FontSize="25" TextColor="White"
-                    Command="{x:Binding StrikeCommand}"/>
+                StrokeThickness="0" Background="#1f1f1f" Margin="3">
 
-                <Border HeightRequest="30" StrokeThickness="0"/>
+            <Grid RowSpacing="10" VerticalOptions="Center" HorizontalOptions="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
-                    Text="ファール" BackgroundColor="#000033" FontSize="25" TextColor="White"
-                    Command="{x:Binding FoulCommand}"/>
-                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
-                    Text="アウト" BackgroundColor="#000033" FontSize="25" TextColor="White"
-                    Command="{x:Binding OutCommand}"/>
-            </VerticalStackLayout>
-            
+                <Button Grid.Row="0" Text="ボール" Padding="40,20"
+                        BackgroundColor="#000033" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding BallCommand}" />
+
+                <Button Grid.Row="1" Text="ストライク" Padding="40,20"
+                        BackgroundColor="#000033" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding StrikeCommand}" />
+
+                <Button Grid.Row="2" Text="ファール" Padding="40,20"
+                        BackgroundColor="#000033" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding FoulCommand}" />
+
+                <Button Grid.Row="3" Text="アウト" Padding="40,20"
+                        BackgroundColor="#000033" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding OutCommand}" />
+            </Grid>
         </Border>
 
+        <!-- 中央下（ベース表示） -->
         <Border Grid.Row="1" Grid.Column="1"
-                StrokeThickness="0" Background="#1f1f1f" Margin="5">
+                StrokeThickness="0" Background="#1f1f1f" Margin="3">
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Rectangle Grid.Column="1" Grid.Row="0" Background="{x:Binding Base2Brush.Value}"
-                           WidthRequest="50" HeightRequest="50" Margin="20"
-                           Rotation="45"/>
+                <Rectangle Grid.Column="1" Grid.Row="0"
+                           Background="{x:Binding Base2Brush.Value}"
+                           WidthRequest="40" HeightRequest="40"
+                           Margin="20" Rotation="45"/>
 
-                <Rectangle Grid.Column="0" Grid.Row="1" Background="{x:Binding Base3Brush.Value}"
-                           WidthRequest="50" HeightRequest="50" Margin="20"
-                           Rotation="45"/>
+                <Rectangle Grid.Column="0" Grid.Row="1"
+                           Background="{x:Binding Base3Brush.Value}"
+                           WidthRequest="40" HeightRequest="40"
+                           Margin="20" Rotation="45"/>
 
-                <Rectangle Grid.Column="2" Grid.Row="1" Background="{x:Binding Base1Brush.Value}"
-                           WidthRequest="50" HeightRequest="50" Margin="20"
-                           Rotation="45"/>
+                <Rectangle Grid.Column="2" Grid.Row="1"
+                           Background="{x:Binding Base1Brush.Value}"
+                           WidthRequest="40" HeightRequest="40"
+                           Margin="20" Rotation="45"/>
 
-                <Rectangle Grid.Column="1" Grid.Row="2" Background="White"
-                           WidthRequest="50" HeightRequest="50" Margin="20"
-                           Rotation="45"/>
+                <Rectangle Grid.Column="1" Grid.Row="2"
+                           Background="White"
+                           WidthRequest="40" HeightRequest="40"
+                           Margin="20" Rotation="45"/>
 
-                <Grid Grid.Column="1" Grid.Row="1" Margin="100,0,0,0"
+                <!-- ボール・ストライク・アウト表示 -->
+                <Grid Grid.Column="1" Grid.Row="1"
+                      Margin="{OnPlatform Android=40, WinUI=40}"
                       HorizontalOptions="Start" VerticalOptions="End"
                       ColumnSpacing="5" RowSpacing="5">
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
@@ -174,64 +218,89 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0" HorizontalOptions="End"
-                           Text="ボール" FontSize="30" Margin="0,0,20,0"/>
-                    <Ellipse Grid.Column="1" Grid.Row="0" IsVisible="{x:Binding Ball1Visibility.Value}"
-                             HorizontalOptions="Center" VerticalOptions="Center"
-                             WidthRequest="30" HeightRequest="30"
-                             BackgroundColor="White"/>
-                    <Ellipse Grid.Column="2" Grid.Row="0" IsVisible="{x:Binding Ball2Visibility.Value}"
-                             HorizontalOptions="Center" VerticalOptions="Center"
-                             WidthRequest="30" HeightRequest="30"
-                             BackgroundColor="White"/>
-                    <Ellipse Grid.Column="3" Grid.Row="0" IsVisible="{x:Binding Ball3Visibility.Value}"
-                             HorizontalOptions="Center" VerticalOptions="Center"
-                             WidthRequest="30" HeightRequest="30"
+                    <Label Grid.Column="0" Grid.Row="0" Text="ボール"
+                           FontSize="{OnPlatform Android=25, WinUI=30}"
+                           Margin="0,0,20,0"/>
+
+                    <Ellipse Grid.Column="1" Grid.Row="0"
+                             IsVisible="{x:Binding Ball1Visibility.Value}"
+                             WidthRequest="35" HeightRequest="35"
                              BackgroundColor="White"/>
 
-                    <Label Grid.Column="0" Grid.Row="1" HorizontalOptions="End"
-                           Text="ストライク" FontSize="30" Margin="0,0,20,0"/>
-                    <Ellipse Grid.Column="1" Grid.Row="1" IsVisible="{x:Binding Strike1Visibility.Value}"
-                             HorizontalOptions="Center" VerticalOptions="Center"
-                             WidthRequest="30" HeightRequest="30"
-                             BackgroundColor="White"/>
-                    <Ellipse Grid.Column="2" Grid.Row="1" IsVisible="{x:Binding Strike2Visibility.Value}"
-                             HorizontalOptions="Center" VerticalOptions="Center"
-                             WidthRequest="30" HeightRequest="30"
+                    <Ellipse Grid.Column="2" Grid.Row="0"
+                             IsVisible="{x:Binding Ball2Visibility.Value}"
+                             WidthRequest="35" HeightRequest="35"
                              BackgroundColor="White"/>
 
-                    <Label Grid.Column="0" Grid.Row="2" HorizontalOptions="End"
-                           Text="アウト" FontSize="30" Margin="0,0,20,0"/>
-                    <Ellipse Grid.Column="1" Grid.Row="2" IsVisible="{x:Binding Out1Visibility.Value}"
-                             HorizontalOptions="Center" VerticalOptions="Center"
-                             WidthRequest="30" HeightRequest="30"
+                    <Ellipse Grid.Column="3" Grid.Row="0"
+                             IsVisible="{x:Binding Ball3Visibility.Value}"
+                             WidthRequest="35" HeightRequest="35"
+                             BackgroundColor="White"/>
+
+                    <Label Grid.Column="0" Grid.Row="1" Text="ストライク"
+                           FontSize="{OnPlatform Android=25, WinUI=30}"
+                           Margin="0,0,20,0"/>
+
+                    <Ellipse Grid.Column="1" Grid.Row="1"
+                             IsVisible="{x:Binding Strike1Visibility.Value}"
+                             WidthRequest="35" HeightRequest="35"
+                             BackgroundColor="White"/>
+
+                    <Ellipse Grid.Column="2" Grid.Row="1"
+                             IsVisible="{x:Binding Strike2Visibility.Value}"
+                             WidthRequest="35" HeightRequest="35"
+                             BackgroundColor="White"/>
+
+                    <Label Grid.Column="0" Grid.Row="2" Text="アウト"
+                           FontSize="{OnPlatform Android=25, WinUI=30}"
+                           Margin="0,0,20,0"/>
+
+                    <Ellipse Grid.Column="1" Grid.Row="2"
+                             IsVisible="{x:Binding Out1Visibility.Value}"
+                             WidthRequest="35" HeightRequest="35"
                              BackgroundColor="Red"/>
-                    <Ellipse Grid.Column="2" Grid.Row="2" IsVisible="{x:Binding Out2Visibility.Value}"
-                             HorizontalOptions="Center" VerticalOptions="Center"
-                             WidthRequest="30" HeightRequest="30"
+
+                    <Ellipse Grid.Column="2" Grid.Row="2"
+                             IsVisible="{x:Binding Out2Visibility.Value}"
+                             WidthRequest="35" HeightRequest="35"
                              BackgroundColor="Red"/>
                 </Grid>
             </Grid>
         </Border>
 
+        <!-- 右下（ヒットボタン群） -->
         <Border Grid.Row="1" Grid.Column="2"
-                StrokeThickness="0" Background="#1f1f1f" Margin="5">
-            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
-                    Text="シングルヒット" BackgroundColor="#000033" FontSize="25" TextColor="White"
-                    Command="{x:Binding SingleHitCommand}"/>
-                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
-                    Text="2ベースヒット" BackgroundColor="#000033" FontSize="25" TextColor="White"
-                    Command="{x:Binding TwoBaseHitCommand}"/>
-                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
-                    Text="3ベースヒット" BackgroundColor="#000033" FontSize="25" TextColor="White"
-                    Command="{x:Binding ThreeBaseHitCommand}"/>
-                <Button HorizontalOptions="Center" VerticalOptions="Center" Margin="5" Padding="40,20"
-                    Text="ホームラン" BackgroundColor="#000033" FontSize="25" TextColor="White"
-                    Command="{x:Binding HomeRunCommand}"/>
-            </VerticalStackLayout>
+                StrokeThickness="0" Background="#1f1f1f" Margin="3">
 
+            <Grid RowSpacing="10" VerticalOptions="Center" HorizontalOptions="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0" Text="シングルヒット" Padding="40,20"
+                        BackgroundColor="#000033" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding SingleHitCommand}" />
+
+                <Button Grid.Row="1" Text="2ベースヒット" Padding="40,20"
+                        BackgroundColor="#000033" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding TwoBaseHitCommand}" />
+
+                <Button Grid.Row="2" Text="3ベースヒット" Padding="40,20"
+                        BackgroundColor="#000033" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding ThreeBaseHitCommand}" />
+
+                <Button Grid.Row="3" Text="ホームラン" Padding="40,20"
+                        BackgroundColor="#000033" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding HomeRunCommand}" />
+            </Grid>
         </Border>
-    </Grid>
 
+    </Grid>
 </ContentPage>
