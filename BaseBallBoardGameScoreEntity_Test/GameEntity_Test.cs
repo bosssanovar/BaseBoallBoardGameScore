@@ -189,5 +189,18 @@ namespace BaseBallBoardGameScoreEntity_Test
             Assert.Equal(game.GetOffensePlayerNumber(), clone.GetOffensePlayerNumber());
             Assert.Equal(game.IsRunnerExists(1), clone.IsRunnerExists(1));
         }
+
+        [Fact]
+        public void チェンジ時に走者がリセットされる()
+        {
+            var game = new GameEntity();
+            game.NotifyHit(1); // 1塁に走者
+            Assert.True(game.IsRunnerExists(1));
+            // アウト3で裏へ
+            game.NotifyOut();
+            game.NotifyOut();
+            game.NotifyOut();
+            Assert.False(game.IsRunnerExists(1)); // 走者はリセットされる
+        }
     }
 }

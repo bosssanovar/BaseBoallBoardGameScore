@@ -50,7 +50,9 @@ namespace MauiApp1
         public ReactiveCommand TwoBaseHitCommand { get; } = new();
         public ReactiveCommand ThreeBaseHitCommand { get; } = new();
         public ReactiveCommand HomeRunCommand { get; } = new();
+
         public ReactiveCommand InitializeCommand { get; } = new();
+        public ReactiveCommand UndoCommand { get; } = new();
 
         #endregion
 
@@ -186,6 +188,10 @@ namespace MauiApp1
             InitializeCommand.Subscribe(() =>
             {
                 _model.Initialize();
+            });
+            UndoCommand.Subscribe(() =>
+            {
+                _model.Undo();
             });
         }
 

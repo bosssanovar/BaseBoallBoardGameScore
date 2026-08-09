@@ -93,9 +93,16 @@
             ScoreEntity clone = new()
             {
                 _inning = _inning,
-                _scores = (UraOmoteScore[])_scores.Clone(),
                 _isOmote = _isOmote
             };
+
+            UraOmoteScore[] clonedScore = new UraOmoteScore[_scores.Length];
+            for (int i = 0; i < _scores.Length; i++)
+            {
+                clonedScore[i] = _scores[i].Clone();
+            }
+            clone._scores = clonedScore;
+
             return clone;
         }
 
@@ -111,6 +118,15 @@
         {
             public int? OmoteScore { get; set; }
             public int? UraScore { get; set; }
+
+            public UraOmoteScore Clone()
+            {
+                return new UraOmoteScore()
+                {
+                    OmoteScore = this.OmoteScore,
+                    UraScore = this.UraScore
+                };
+            }
         }
 
         #endregion

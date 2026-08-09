@@ -83,6 +83,7 @@
             _count.NotifyStrike(out bool isInningEnd);
             if(isInningEnd)
             {
+                _runner.Clear();
                 _score.Next();
             }
         }
@@ -109,6 +110,7 @@
             _count.NotifyOut(out bool isInningEnd);
             if (isInningEnd)
             {
+                _runner.Clear();
                 _score.Next();
             }
         }

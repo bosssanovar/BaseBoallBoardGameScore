@@ -46,75 +46,75 @@
                 <!-- 見出し -->
                 <Border Grid.Row="0" Grid.Column="1" Background="Black">
                     <Label Text="1" HorizontalOptions="Center" VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
                 <Border Grid.Row="0" Grid.Column="2" Background="Black">
                     <Label Text="2" HorizontalOptions="Center" VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
                 <Border Grid.Row="0" Grid.Column="3" Background="Black">
                     <Label Text="3" HorizontalOptions="Center" VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
                 <Border Grid.Row="0" Grid.Column="4" Background="Black">
                     <Label Text="合計" HorizontalOptions="Center" VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
 
                 <!-- プレイヤー1 -->
                 <Border Grid.Row="1" Grid.Column="0"
                         Background="{x:Binding OmotePlayerBackground.Value}">
                     <Label Text="プレイヤー1" HorizontalOptions="Center" VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
 
                 <Border Grid.Row="1" Grid.Column="1" Background="Black">
                     <Label Text="{x:Binding Omote1Score.Value}" HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
                 <Border Grid.Row="1" Grid.Column="2" Background="Black">
                     <Label Text="{x:Binding Omote2Score.Value}" HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
                 <Border Grid.Row="1" Grid.Column="3" Background="Black">
                     <Label Text="{x:Binding Omote3Score.Value}" HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
                 <Border Grid.Row="1" Grid.Column="4" Background="Black">
                     <Label Text="{x:Binding OmoteTotalScore.Value}" HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
 
                 <!-- プレイヤー2 -->
                 <Border Grid.Row="2" Grid.Column="0"
                         Background="{x:Binding UraPlayerBackground.Value}">
                     <Label Text="プレイヤー2" HorizontalOptions="Center" VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
 
                 <Border Grid.Row="2" Grid.Column="1" Background="Black">
                     <Label Text="{x:Binding Ura1Score.Value}" HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
                 <Border Grid.Row="2" Grid.Column="2" Background="Black">
                     <Label Text="{x:Binding Ura2Score.Value}" HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
                 <Border Grid.Row="2" Grid.Column="3" Background="Black">
                     <Label Text="{x:Binding Ura3Score.Value}" HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
                 <Border Grid.Row="2" Grid.Column="4" Background="Black">
                     <Label Text="{x:Binding UraTotalScore.Value}" HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           FontSize="{OnPlatform Android=30, WinUI=30}" />
+                           FontSize="{OnPlatform Android=30, WinUI=30}" TextColor="White"/>
                 </Border>
             </Grid>
         </Border>
@@ -122,10 +122,23 @@
         <!-- 初期化ボタン -->
         <Border Grid.Row="0" Grid.Column="2"
                 StrokeThickness="0" Background="#1f1f1f" Margin="3">
-            <Button Text="初期化" Padding="40,20" HorizontalOptions="Center" VerticalOptions="Center"
-                    BackgroundColor="#000033" TextColor="White"
-                    FontSize="{OnPlatform Android=20, WinUI=25}"
-                    Command="{x:Binding InitializeCommand}" />
+            <Grid RowSpacing="10" VerticalOptions="Center" HorizontalOptions="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0"
+                        Text="初期化" Padding="40,20" HorizontalOptions="Center" VerticalOptions="Center"
+                        BackgroundColor="#550000" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding InitializeCommand}" />
+                <Button Grid.Row="2"
+                        Text="戻す" Padding="40,20" HorizontalOptions="Center" VerticalOptions="Center"
+                        BackgroundColor="#888888" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding UndoCommand}" />
+            </Grid>
         </Border>
 
         <!-- 左下（ボタン群） -->
@@ -137,28 +150,29 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Button Grid.Row="0" Text="ボール" Padding="40,20"
-                        BackgroundColor="#000033" TextColor="White"
+                        BackgroundColor="#5555aa" TextColor="White"
                         FontSize="{OnPlatform Android=20, WinUI=25}"
                         Command="{x:Binding BallCommand}" />
 
                 <Button Grid.Row="1" Text="ストライク" Padding="40,20"
-                        BackgroundColor="#000033" TextColor="White"
+                        BackgroundColor="#aaaa22" TextColor="White"
                         FontSize="{OnPlatform Android=20, WinUI=25}"
                         Command="{x:Binding StrikeCommand}" />
-
-                <Button Grid.Row="2" Text="ファール" Padding="40,20"
-                        BackgroundColor="#000033" TextColor="White"
-                        FontSize="{OnPlatform Android=20, WinUI=25}"
-                        Command="{x:Binding FoulCommand}" />
-
-                <Button Grid.Row="3" Text="アウト" Padding="40,20"
-                        BackgroundColor="#000033" TextColor="White"
+                
+                <Button Grid.Row="2" Text="アウト" Padding="40,20"
+                        BackgroundColor="#aa5555" TextColor="White"
                         FontSize="{OnPlatform Android=20, WinUI=25}"
                         Command="{x:Binding OutCommand}" />
+
+                <Button Grid.Row="4" Text="ファール" Padding="40,20"
+                        BackgroundColor="#000055" TextColor="White"
+                        FontSize="{OnPlatform Android=20, WinUI=25}"
+                        Command="{x:Binding FoulCommand}" />
             </Grid>
         </Border>
 
@@ -187,7 +201,7 @@
                 <Rectangle Grid.Column="0" Grid.Row="1"
                            Background="{x:Binding Base3Brush.Value}"
                            WidthRequest="40" HeightRequest="40"
-                           Margin="20" Rotation="45"/>
+                           Margin="50" Rotation="45"/>
 
                 <Rectangle Grid.Column="2" Grid.Row="1"
                            Background="{x:Binding Base1Brush.Value}"
@@ -219,51 +233,51 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Column="0" Grid.Row="0" Text="ボール"
-                           FontSize="{OnPlatform Android=25, WinUI=30}"
+                           FontSize="{OnPlatform Android=25, WinUI=30}" TextColor="#5555aa"
                            Margin="0,0,20,0"/>
 
                     <Ellipse Grid.Column="1" Grid.Row="0"
                              IsVisible="{x:Binding Ball1Visibility.Value}"
-                             WidthRequest="35" HeightRequest="35"
-                             BackgroundColor="White"/>
+                             WidthRequest="30" HeightRequest="30"
+                             BackgroundColor="#5555aa"/>
 
                     <Ellipse Grid.Column="2" Grid.Row="0"
                              IsVisible="{x:Binding Ball2Visibility.Value}"
-                             WidthRequest="35" HeightRequest="35"
-                             BackgroundColor="White"/>
+                             WidthRequest="30" HeightRequest="30"
+                             BackgroundColor="#5555aa"/>
 
                     <Ellipse Grid.Column="3" Grid.Row="0"
                              IsVisible="{x:Binding Ball3Visibility.Value}"
-                             WidthRequest="35" HeightRequest="35"
-                             BackgroundColor="White"/>
+                             WidthRequest="30" HeightRequest="30"
+                             BackgroundColor="#5555aa"/>
 
                     <Label Grid.Column="0" Grid.Row="1" Text="ストライク"
-                           FontSize="{OnPlatform Android=25, WinUI=30}"
+                           FontSize="{OnPlatform Android=25, WinUI=30}" TextColor="#aaaa22"
                            Margin="0,0,20,0"/>
 
                     <Ellipse Grid.Column="1" Grid.Row="1"
                              IsVisible="{x:Binding Strike1Visibility.Value}"
-                             WidthRequest="35" HeightRequest="35"
-                             BackgroundColor="White"/>
+                             WidthRequest="30" HeightRequest="30"
+                             BackgroundColor="#aaaa22"/>
 
                     <Ellipse Grid.Column="2" Grid.Row="1"
                              IsVisible="{x:Binding Strike2Visibility.Value}"
-                             WidthRequest="35" HeightRequest="35"
-                             BackgroundColor="White"/>
+                             WidthRequest="30" HeightRequest="30"
+                             BackgroundColor="#aaaa22"/>
 
                     <Label Grid.Column="0" Grid.Row="2" Text="アウト"
-                           FontSize="{OnPlatform Android=25, WinUI=30}"
+                           FontSize="{OnPlatform Android=25, WinUI=30}" TextColor="#aa5555"
                            Margin="0,0,20,0"/>
 
                     <Ellipse Grid.Column="1" Grid.Row="2"
                              IsVisible="{x:Binding Out1Visibility.Value}"
-                             WidthRequest="35" HeightRequest="35"
-                             BackgroundColor="Red"/>
+                             WidthRequest="30" HeightRequest="30"
+                             BackgroundColor="#aa5555"/>
 
                     <Ellipse Grid.Column="2" Grid.Row="2"
                              IsVisible="{x:Binding Out2Visibility.Value}"
-                             WidthRequest="35" HeightRequest="35"
-                             BackgroundColor="Red"/>
+                             WidthRequest="30" HeightRequest="30"
+                             BackgroundColor="#aa5555"/>
                 </Grid>
             </Grid>
         </Border>
@@ -281,22 +295,22 @@
                 </Grid.RowDefinitions>
 
                 <Button Grid.Row="0" Text="シングルヒット" Padding="40,20"
-                        BackgroundColor="#000033" TextColor="White"
+                        BackgroundColor="#000055" TextColor="White"
                         FontSize="{OnPlatform Android=20, WinUI=25}"
                         Command="{x:Binding SingleHitCommand}" />
 
                 <Button Grid.Row="1" Text="2ベースヒット" Padding="40,20"
-                        BackgroundColor="#000033" TextColor="White"
+                        BackgroundColor="#000055" TextColor="White"
                         FontSize="{OnPlatform Android=20, WinUI=25}"
                         Command="{x:Binding TwoBaseHitCommand}" />
 
                 <Button Grid.Row="2" Text="3ベースヒット" Padding="40,20"
-                        BackgroundColor="#000033" TextColor="White"
+                        BackgroundColor="#000055" TextColor="White"
                         FontSize="{OnPlatform Android=20, WinUI=25}"
                         Command="{x:Binding ThreeBaseHitCommand}" />
 
                 <Button Grid.Row="3" Text="ホームラン" Padding="40,20"
-                        BackgroundColor="#000033" TextColor="White"
+                        BackgroundColor="#000055" TextColor="White"
                         FontSize="{OnPlatform Android=20, WinUI=25}"
                         Command="{x:Binding HomeRunCommand}" />
             </Grid>

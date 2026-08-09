@@ -10,15 +10,26 @@ namespace MauiApp1
 {
     internal class Model
     {
+        private Stack<GameEntity> _entityUndoStack = new();
+
         public ReactivePropertySlim<GameEntity> GameEntity { get; } = new(new());
 
         internal void Initialize()
         {
+            StackEntity();
+
             GameEntity.Value = new();
+        }
+
+        internal void Undo()
+        {
+            GameEntity.Value = _entityUndoStack.Pop().Clone();
         }
 
         internal void NotifyBall()
         {
+            StackEntity();
+
             var cloned = GameEntity.Value.Clone();
             cloned.NotifyBall();
             GameEntity.Value = cloned;
@@ -26,6 +37,8 @@ namespace MauiApp1
 
         internal void NotifyFoul()
         {
+            StackEntity();
+
             var cloned = GameEntity.Value.Clone();
             cloned.NotifyFoul();
             GameEntity.Value = cloned;
@@ -33,6 +46,8 @@ namespace MauiApp1
 
         internal void NotifyHit(int v)
         {
+            StackEntity();
+
             var cloned = GameEntity.Value.Clone();
             cloned.NotifyHit(v);
             GameEntity.Value = cloned;
@@ -40,6 +55,8 @@ namespace MauiApp1
 
         internal void NotifyHomeRun()
         {
+            StackEntity();
+
             var cloned = GameEntity.Value.Clone();
             cloned.NotifyHomeRun();
             GameEntity.Value = cloned;
@@ -47,6 +64,8 @@ namespace MauiApp1
 
         internal void NotifyOut()
         {
+            StackEntity();
+
             var cloned = GameEntity.Value.Clone();
             cloned.NotifyOut();
             GameEntity.Value = cloned;
@@ -54,9 +73,16 @@ namespace MauiApp1
 
         internal void NotifyStrike()
         {
+            StackEntity();
+
             var cloned = GameEntity.Value.Clone();
             cloned.NotifyStrike();
             GameEntity.Value = cloned;
+        }
+
+        private void StackEntity()
+        {
+            _entityUndoStack.Push(GameEntity.Value.Clone());
         }
     }
 }
