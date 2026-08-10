@@ -2,10 +2,15 @@
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        public void MainPageBase()
         {
             InitializeComponent();
-            BindingContext = new ViewModel();
+        }
+
+        override protected void OnAppearing()
+        {
+            base.OnAppearing();
+            BindingContext = this;
         }
     }
 }

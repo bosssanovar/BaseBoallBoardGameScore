@@ -8,7 +8,7 @@ using System.Text;
 
 namespace MauiApp1
 {
-    internal class ViewModel
+    public partial class MainPage
     {
         #region Fields ====================================================================================================
 
@@ -58,8 +58,10 @@ namespace MauiApp1
 
         #region Constructors ================================================================================================
 
-        public ViewModel()
+        public MainPage()
         {
+            MainPageBase();
+
             OmotePlayerBackground =
                 _model.GameEntity
                 .Select(
