@@ -99,7 +99,10 @@
             UraOmoteScore[] clonedScore = new UraOmoteScore[_scores.Length];
             for (int i = 0; i < _scores.Length; i++)
             {
-                clonedScore[i] = _scores[i].Clone();
+                if(_scores[i] is not null)
+                {
+                    clonedScore[i] = _scores[i].Clone();
+                }
             }
             clone._scores = clonedScore;
 
