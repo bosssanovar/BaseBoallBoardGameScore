@@ -178,7 +178,9 @@ namespace MauiApp1
                 await Task.WhenAll(
                     MoveBallAsync(),
                     RunFromHomeTo1Base(),
-                    RunFrom1BaseTo2Base()
+                    RunFrom1BaseTo2Base(),
+                    RunFrom2BaseTo3Base(),
+                    RunFrom3BaseToHome()
                 );
                 _model.NotifyHit(1);
             });
@@ -272,6 +274,20 @@ namespace MauiApp1
             await Task.Delay(300);
             await LeaveFromHomeAsync(Base1Runner, 0, 0, -50, -30, "LeaveFrom1Base");
             await AriveTo1BaseAsync(Base2Runner, 50, 30, 0, 0, "AriveTo2Base");
+        }
+
+        private async Task RunFrom2BaseTo3Base()
+        {
+            await Task.Delay(300);
+            await LeaveFromHomeAsync(Base2Runner, 0, 0, -50, 30, "LeaveFrom2Base");
+            await AriveTo1BaseAsync(Base3Runner, 50, -30, 0, 0, "AriveTo3Base");
+        }
+
+        private async Task RunFrom3BaseToHome()
+        {
+            await Task.Delay(300);
+            await LeaveFromHomeAsync(Base3Runner, 0, 0, 50, 30, "LeaveFrom3Base");
+            await AriveTo1BaseAsync(HomeRunner, -50, -30, 0, 0, "AriveToHome");
         }
 
         private async Task LeaveFromHomeAsync(
