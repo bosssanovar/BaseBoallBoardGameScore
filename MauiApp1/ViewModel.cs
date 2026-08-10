@@ -258,7 +258,7 @@ namespace MauiApp1
 
             double startX = Ball.TranslationX;
             double startY = Ball.TranslationY;
-            double endX = 100;
+            double endX = new Random().NextDouble() * 700 - 350; ;
             double endY = -300;
 
             var animation = new Animation();
