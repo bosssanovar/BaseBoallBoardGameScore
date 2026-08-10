@@ -177,7 +177,8 @@ namespace MauiApp1
             {
                 await Task.WhenAll(
                     MoveBallAsync(),
-                    RunFromHomeTo1Bse()
+                    RunFromHomeTo1Base(),
+                    RunFrom1BaseTo2Base()
                 );
                 _model.NotifyHit(1);
             });
@@ -259,11 +260,18 @@ namespace MauiApp1
             return tcs.Task;
         }
 
-        private async Task RunFromHomeTo1Bse()
+        private async Task RunFromHomeTo1Base()
         {
             await Task.Delay(300);
             await LeaveFromHomeAsync(HomeRunner, 0, 0, 50, -30, "LeaveFromHome");
             await AriveTo1BaseAsync(Base1Runner, -50, 30, 0, 0, "AriveTo1Base");
+        }
+
+        private async Task RunFrom1BaseTo2Base()
+        {
+            await Task.Delay(300);
+            await LeaveFromHomeAsync(Base1Runner, 0, 0, -50, -30, "LeaveFrom1Base");
+            await AriveTo1BaseAsync(Base2Runner, 50, 30, 0, 0, "AriveTo2Base");
         }
 
         private async Task LeaveFromHomeAsync(
@@ -352,12 +360,12 @@ namespace MauiApp1
             animation = new Animation();
             animation.Add(0, 1, new Animation(v =>
             {
-                Base1Runner.Opacity = 1 - v;
+                target.Opacity = 1 - v;
             }));
 
             animation.Commit(
                 owner: this,
-                name: "AriveTo1Base",
+                name: animationName,
                 rate: 16,
                 length: 200,
                 easing: Easing.CubicOut,
