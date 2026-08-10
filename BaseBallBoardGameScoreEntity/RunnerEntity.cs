@@ -103,6 +103,25 @@
             return clone;
         }
 
+        internal List<int> GetAllRunners()
+        {
+            List<int> ret = new List<int>();
+            ret.Add(0); // ホームは常に存在する
+            if (_bases[0])
+            {
+                ret.Add(1);
+            }
+            if (_bases[1])
+            {
+                ret.Add(2);
+            }
+            if (_bases[2])
+            {
+                ret.Add(3);
+            }
+            return ret;
+        }
+
         #endregion
 
         #region Private Methods =============================================================================================

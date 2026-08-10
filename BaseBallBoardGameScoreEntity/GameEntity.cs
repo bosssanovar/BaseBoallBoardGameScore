@@ -127,6 +127,11 @@
             _count.NotifyFoul();
         }
 
+        public List<int> GetAllRunners()
+        {
+            return _runner.GetAllRunners();
+        }
+
         #endregion
 
         #region Private Methods =============================================================================================

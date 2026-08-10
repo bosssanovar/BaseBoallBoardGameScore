@@ -9,6 +9,8 @@ using System.Drawing;
 using System.Reactive.Linq;
 using System.Text;
 
+using static MauiApp1.MainPage;
+
 namespace MauiApp1
 {
     public partial class MainPage
@@ -175,25 +177,22 @@ namespace MauiApp1
             });
             SingleHitCommand.Subscribe(async () =>
             {
-                await Task.WhenAll(
-                    MoveBallAsync(),
-                    RunFromHomeTo1Base(),
-                    RunFrom1BaseTo2Base(),
-                    RunFrom2BaseTo3Base(),
-                    RunFrom3BaseToHome()
-                );
+                await StartAnimation(HitType.Single);
                 _model.NotifyHit(1);
             });
             TwoBaseHitCommand.Subscribe(async () =>
             {
+                await StartAnimation(HitType.Double);
                 _model.NotifyHit(2);
             });
             ThreeBaseHitCommand.Subscribe(async () =>
             {
+                await StartAnimation(HitType.Triple);
                 _model.NotifyHit(3);
             });
             HomeRunCommand.Subscribe(async () =>
             {
+                await StartAnimation(HitType.HomeRun);
                 _model.NotifyHomeRun();
             });
 
@@ -210,9 +209,36 @@ namespace MauiApp1
         #endregion
 
         #region Public Methods ==============================================================================================
+       
         #endregion
 
         #region Private Methods =============================================================================================
+        private IEnumerable<Func<Task>> BuildAdvanceSequence(int startBase, int basesToAdvance)
+        {
+            var seq = new List<Func<Task>>();
+
+            int current = startBase;
+
+            for (int i = 0; i < basesToAdvance; i++)
+            {
+                seq.Add(GetStepAnimation(current));
+                current++;
+                if (current > 4) break; // ホームを超えない
+            }
+
+            return seq;
+        }
+        private Func<Task> GetStepAnimation(int baseNumber)
+        {
+            return baseNumber switch
+            {
+                0 => () => RunFromHomeTo1Base(),
+                1 => () => RunFrom1BaseTo2Base(),
+                2 => () => RunFrom2BaseTo3Base(),
+                3 => () => RunFrom3BaseToHome(),
+                _ => () => Task.CompletedTask
+            };
+        }
 
         private static SolidColorBrush GetBaseBrush(bool isRunnerExists)
         {
@@ -391,10 +417,77 @@ namespace MauiApp1
             await tcs.Task;
         }
 
+        private async Task StartAnimation(HitType hitType)
+        {
+            var tasks = new List<Task>();
+
+            foreach (var anim in GetAnimations(hitType))
+            {
+                tasks.Add(anim());
+            }
+
+            await Task.WhenAll(tasks);
+        }
+        private IEnumerable<Func<Task>> GetAnimations(HitType hit)
+        {
+            var list = new List<Func<Task>>();
+
+            // ボールアニメは常に実行
+            list.Add(() => MoveBallAsync());
+
+            int basesToAdvance = hit switch
+            {
+                HitType.Single => 1,
+                HitType.Double => 2,
+                HitType.Triple => 3,
+                HitType.HomeRun => 4,
+            };
+
+            List<int> runners = _model.GameEntity.Value.GetAllRunners();
+
+            foreach (var r in runners)
+            {
+                // ★ ランナーごとに直列アニメを返す
+                list.Add(() => RunAdvanceAsync(r, basesToAdvance));
+            }
+
+            return list;
+        }
+
+
+        private async Task RunAdvanceAsync(int startBase, int basesToAdvance)
+        {
+            int current = startBase;
+
+            for (int i = 0; i < basesToAdvance; i++)
+            {
+                switch (current)
+                {
+                    case 0: await RunFromHomeTo1Base(); break;
+                    case 1: await RunFrom1BaseTo2Base(); break;
+                    case 2: await RunFrom2BaseTo3Base(); break;
+                    case 3: await RunFrom3BaseToHome(); break;
+                }
+
+                current++;
+                if (current > 3) break; // ホームを超えたら終了
+            }
+        }
+
+
 
         #endregion
 
         #region Helpers =====================================================================================================
+
+        public enum HitType
+        {
+            Single,   // 単打
+            Double,   // 二塁打
+            Triple,   // 三塁打
+            HomeRun   // 本塁打
+        }
+        
         #endregion
     }
 }
