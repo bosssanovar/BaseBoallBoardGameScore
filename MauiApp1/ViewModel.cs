@@ -170,20 +170,36 @@ namespace MauiApp1
             {
                 _model.NotifyOut();
             });
-            SingleHitCommand.Subscribe(() =>
+            SingleHitCommand.Subscribe(async () =>
             {
+                await Task.WhenAll(
+                    MoveBallAsync(),
+                    MoveHomeRunnerAsync()
+                );
                 _model.NotifyHit(1);
             });
-            TwoBaseHitCommand.Subscribe(() =>
+            TwoBaseHitCommand.Subscribe(async () =>
             {
+                await Task.WhenAll(
+                    MoveBallAsync(),
+                    MoveHomeRunnerAsync()
+                );
                 _model.NotifyHit(2);
             });
-            ThreeBaseHitCommand.Subscribe(() =>
+            ThreeBaseHitCommand.Subscribe(async () =>
             {
+                await Task.WhenAll(
+                    MoveBallAsync(),
+                    MoveHomeRunnerAsync()
+                );
                 _model.NotifyHit(3);
             });
-            HomeRunCommand.Subscribe(() =>
+            HomeRunCommand.Subscribe(async () =>
             {
+                await Task.WhenAll(
+                    MoveBallAsync(),
+                    MoveHomeRunnerAsync()
+                );
                 _model.NotifyHomeRun();
             });
 
@@ -211,6 +227,86 @@ namespace MauiApp1
                 ? new SolidColorBrush(Colors.White)
                 : new SolidColorBrush(Color.FromArgb("#363636"));
         }
+
+        private Task MoveBallAsync()
+        {
+            var tcs = new TaskCompletionSource();
+
+            // 初期化
+            Ball.TranslationX = 0;
+            Ball.TranslationY = 0;
+
+            double startX = Ball.TranslationX;
+            double startY = Ball.TranslationY;
+            double endX = 100;
+            double endY = -300;
+
+            var animation = new Animation();
+
+            // 移動
+            animation.Add(0, 1, new Animation(v =>
+            {
+                Ball.TranslationX = startX + (endX - startX) * v;
+                Ball.TranslationY = startY + (endY - startY) * v;
+            }));
+
+            // 透明化
+            animation.Add(0, 1, new Animation(v =>
+            {
+                Ball.Opacity = 1 - v;
+            }));
+
+            animation.Commit(
+                owner: this,
+                name: "MoveBall",
+                rate: 16,
+                length: 1200,
+                easing: Easing.CubicOut,
+                finished: (v, c) => tcs.SetResult()
+            );
+
+            return tcs.Task;
+        }
+        private Task MoveHomeRunnerAsync()
+        {
+            var tcs = new TaskCompletionSource();
+
+            // 初期化
+            HomeRunner.TranslationX = 0;
+            HomeRunner.TranslationY = 0;
+
+            double startX = HomeRunner.TranslationX;
+            double startY = HomeRunner.TranslationY;
+            double endX = 100;
+            double endY = -80;
+
+            var animation = new Animation();
+
+            // 移動アニメーション
+            animation.Add(0, 1, new Animation(v =>
+            {
+                HomeRunner.TranslationX = startX + (endX - startX) * v;
+                HomeRunner.TranslationY = startY + (endY - startY) * v;
+            }));
+
+            // 透明化アニメーション
+            animation.Add(0, 1, new Animation(v =>
+            {
+                HomeRunner.Opacity = 1 - v;
+            }));
+
+            animation.Commit(
+                owner: this,
+                name: "RunRunner",
+                rate: 16,
+                length: 1200,
+                easing: Easing.CubicOut,
+                finished: (v, c) => tcs.SetResult()
+            );
+
+            return tcs.Task;
+        }
+
 
         #endregion
 
