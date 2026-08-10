@@ -1,8 +1,11 @@
-﻿using Reactive.Bindings;
+﻿using Microsoft.Maui.Controls.Shapes;
+
+using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Reactive.Linq;
 using System.Text;
 
@@ -67,7 +70,7 @@ namespace MauiApp1
                 .Select(
                     x =>
                     x.GetOffensePlayerNumber() == 1
-                    ? new SolidColorBrush(Color.FromArgb("#555500"))
+                    ? new SolidColorBrush(Microsoft.Maui.Graphics.Color.FromArgb("#555500"))
                     : new SolidColorBrush(Colors.Black))
                 .ToReadOnlyReactivePropertySlim();
             UraPlayerBackground =
@@ -75,7 +78,7 @@ namespace MauiApp1
                 .Select(
                     x =>
                     x.GetOffensePlayerNumber() == 2
-                    ? new SolidColorBrush(Color.FromArgb("#555500"))
+                    ? new SolidColorBrush(Microsoft.Maui.Graphics.Color.FromArgb("#555500"))
                     : new SolidColorBrush(Colors.Black))
                 .ToReadOnlyReactivePropertySlim();
             Omote1Score =
@@ -180,26 +183,14 @@ namespace MauiApp1
             });
             TwoBaseHitCommand.Subscribe(async () =>
             {
-                await Task.WhenAll(
-                    MoveBallAsync(),
-                    LeaveFromHomeAsync()
-                );
                 _model.NotifyHit(2);
             });
             ThreeBaseHitCommand.Subscribe(async () =>
             {
-                await Task.WhenAll(
-                    MoveBallAsync(),
-                    LeaveFromHomeAsync()
-                );
                 _model.NotifyHit(3);
             });
             HomeRunCommand.Subscribe(async () =>
             {
-                await Task.WhenAll(
-                    MoveBallAsync(),
-                    LeaveFromHomeAsync()
-                );
                 _model.NotifyHomeRun();
             });
 
@@ -225,7 +216,7 @@ namespace MauiApp1
             return
                 isRunnerExists
                 ? new SolidColorBrush(Colors.White)
-                : new SolidColorBrush(Color.FromArgb("#363636"));
+                : new SolidColorBrush(Microsoft.Maui.Graphics.Color.FromArgb("#363636"));
         }
 
         private Task MoveBallAsync()
@@ -271,42 +262,42 @@ namespace MauiApp1
         private async Task RunFromHomeTo1Bse()
         {
             await Task.Delay(300);
-            await LeaveFromHomeAsync();
-            await Task.Delay(100);
-            await AriveTo1BaseAsync();
+            await LeaveFromHomeAsync(HomeRunner, 0, 0, 50, -30, "LeaveFromHome");
+            await AriveTo1BaseAsync(Base1Runner, -50, 30, 0, 0, "AriveTo1Base");
         }
 
-        private async Task LeaveFromHomeAsync()
+        private async Task LeaveFromHomeAsync(
+            Microsoft.Maui.Controls.Shapes.Rectangle target,
+            double startX,
+            double startY,
+            double endX,
+            double endY,
+            string animationName)
         {
             var tcs = new TaskCompletionSource();
 
             // 初期化
-            HomeRunner.TranslationX = 0;
-            HomeRunner.TranslationY = 0;
-
-            double startX = HomeRunner.TranslationX;
-            double startY = HomeRunner.TranslationY;
-            double endX = 50;
-            double endY = -30;
+            target.TranslationX = startX;
+            target.TranslationY = startY;
 
             var animation = new Animation();
 
             // 移動アニメーション
             animation.Add(0, 1, new Animation(v =>
             {
-                HomeRunner.TranslationX = startX + (endX - startX) * v;
-                HomeRunner.TranslationY = startY + (endY - startY) * v;
+                target.TranslationX = startX + (endX - startX) * v;
+                target.TranslationY = startY + (endY - startY) * v;
             }));
 
             // 透明化アニメーション
             animation.Add(0, 1, new Animation(v =>
             {
-                HomeRunner.Opacity = 1 - v;
+                target.Opacity = 1 - v;
             }));
 
             animation.Commit(
                 owner: this,
-                name: "LeaveFromHome",
+                name: animationName,
                 rate: 16,
                 length: 500,
                 easing: Easing.CubicOut,
@@ -316,37 +307,38 @@ namespace MauiApp1
             await tcs.Task;
         }
 
-        private async Task AriveTo1BaseAsync()
+        private async Task AriveTo1BaseAsync(
+            Microsoft.Maui.Controls.Shapes.Rectangle target,
+            double startX,
+            double startY,
+            double endX,
+            double endY,
+            string animationName)
         {
             var tcs = new TaskCompletionSource();
 
             // 初期化
-            Base1Runner.TranslationX = -50;
-            Base1Runner.TranslationY = 30;
-
-            double startX = Base1Runner.TranslationX;
-            double startY = Base1Runner.TranslationY;
-            double endX = 0;
-            double endY = 0;
-
+            target.TranslationX = startX;
+            target.TranslationY = startY;
+        
             var animation = new Animation();
 
             // 移動アニメーション
             animation.Add(0, 1, new Animation(v =>
             {
-                Base1Runner.TranslationX = startX + (endX - startX) * v;
-                Base1Runner.TranslationY = startY + (endY - startY) * v;
+                target.TranslationX = startX + (endX - startX) * v;
+                target.TranslationY = startY + (endY - startY) * v;
             }));
 
             // 透明化アニメーション
             animation.Add(0, 1, new Animation(v =>
             {
-                Base1Runner.Opacity = v;
+                target.Opacity = v;
             }));
 
             animation.Commit(
                 owner: this,
-                name: "AriveTo1Base",
+                name: animationName,
                 rate: 16,
                 length: 500,
                 easing: Easing.CubicOut,
@@ -367,7 +359,7 @@ namespace MauiApp1
                 owner: this,
                 name: "AriveTo1Base",
                 rate: 16,
-                length: 500,
+                length: 200,
                 easing: Easing.CubicOut,
                 finished: (v, c) => tcs.SetResult()
             );
