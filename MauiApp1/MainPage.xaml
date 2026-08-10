@@ -279,6 +279,18 @@
                              WidthRequest="30" HeightRequest="30"
                              BackgroundColor="#aa5555"/>
                 </Grid>
+
+                <Rectangle x:Name="Ball" Fill="Orange" WidthRequest="30" HeightRequest="30"
+                           Grid.Column="1" Grid.Row="2"/>
+
+                <Rectangle x:Name="HomeRunner" Fill="Green" WidthRequest="30" HeightRequest="30"
+                           Grid.Column="1" Grid.Row="2"/>
+                <Rectangle x:Name="Base1Runner" Fill="Green" WidthRequest="30" HeightRequest="30"
+                           Grid.Column="2" Grid.Row="1"/>
+                <Rectangle x:Name="Base2Runner" Fill="Green" WidthRequest="30" HeightRequest="30"
+                           Grid.Column="1" Grid.Row="0"/>
+                <Rectangle x:Name="Base3Runner" Fill="Green" WidthRequest="30" HeightRequest="30"
+                           Grid.Column="0" Grid.Row="1"/>
             </Grid>
         </Border>
 
