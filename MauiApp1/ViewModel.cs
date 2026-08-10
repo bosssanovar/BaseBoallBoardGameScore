@@ -174,7 +174,7 @@ namespace MauiApp1
             {
                 await Task.WhenAll(
                     MoveBallAsync(),
-                    MoveHomeRunnerAsync()
+                    RunFromHomeTo1Bse()
                 );
                 _model.NotifyHit(1);
             });
@@ -182,7 +182,7 @@ namespace MauiApp1
             {
                 await Task.WhenAll(
                     MoveBallAsync(),
-                    MoveHomeRunnerAsync()
+                    LeaveFromHomeAsync()
                 );
                 _model.NotifyHit(2);
             });
@@ -190,7 +190,7 @@ namespace MauiApp1
             {
                 await Task.WhenAll(
                     MoveBallAsync(),
-                    MoveHomeRunnerAsync()
+                    LeaveFromHomeAsync()
                 );
                 _model.NotifyHit(3);
             });
@@ -198,7 +198,7 @@ namespace MauiApp1
             {
                 await Task.WhenAll(
                     MoveBallAsync(),
-                    MoveHomeRunnerAsync()
+                    LeaveFromHomeAsync()
                 );
                 _model.NotifyHomeRun();
             });
@@ -267,7 +267,16 @@ namespace MauiApp1
 
             return tcs.Task;
         }
-        private Task MoveHomeRunnerAsync()
+
+        private async Task RunFromHomeTo1Bse()
+        {
+            await Task.Delay(300);
+            await LeaveFromHomeAsync();
+            await Task.Delay(100);
+            await AriveTo1BaseAsync();
+        }
+
+        private async Task LeaveFromHomeAsync()
         {
             var tcs = new TaskCompletionSource();
 
@@ -277,8 +286,8 @@ namespace MauiApp1
 
             double startX = HomeRunner.TranslationX;
             double startY = HomeRunner.TranslationY;
-            double endX = 100;
-            double endY = -80;
+            double endX = 50;
+            double endY = -30;
 
             var animation = new Animation();
 
@@ -297,14 +306,73 @@ namespace MauiApp1
 
             animation.Commit(
                 owner: this,
-                name: "RunRunner",
+                name: "LeaveFromHome",
                 rate: 16,
-                length: 1200,
+                length: 500,
                 easing: Easing.CubicOut,
                 finished: (v, c) => tcs.SetResult()
             );
 
-            return tcs.Task;
+            await tcs.Task;
+        }
+
+        private async Task AriveTo1BaseAsync()
+        {
+            var tcs = new TaskCompletionSource();
+
+            // 初期化
+            Base1Runner.TranslationX = -50;
+            Base1Runner.TranslationY = 30;
+
+            double startX = Base1Runner.TranslationX;
+            double startY = Base1Runner.TranslationY;
+            double endX = 0;
+            double endY = 0;
+
+            var animation = new Animation();
+
+            // 移動アニメーション
+            animation.Add(0, 1, new Animation(v =>
+            {
+                Base1Runner.TranslationX = startX + (endX - startX) * v;
+                Base1Runner.TranslationY = startY + (endY - startY) * v;
+            }));
+
+            // 透明化アニメーション
+            animation.Add(0, 1, new Animation(v =>
+            {
+                Base1Runner.Opacity = v;
+            }));
+
+            animation.Commit(
+                owner: this,
+                name: "AriveTo1Base",
+                rate: 16,
+                length: 500,
+                easing: Easing.CubicOut,
+                finished: (v, c) => tcs.SetResult()
+            );
+
+            await tcs.Task;
+
+            // 透明化アニメーション
+            tcs = new TaskCompletionSource();
+            animation = new Animation();
+            animation.Add(0, 1, new Animation(v =>
+            {
+                Base1Runner.Opacity = 1 - v;
+            }));
+
+            animation.Commit(
+                owner: this,
+                name: "AriveTo1Base",
+                rate: 16,
+                length: 500,
+                easing: Easing.CubicOut,
+                finished: (v, c) => tcs.SetResult()
+            );
+
+            await tcs.Task;
         }
 
 
