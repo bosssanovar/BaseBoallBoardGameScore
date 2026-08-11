@@ -317,7 +317,7 @@ namespace MauiApp1
         }
 
         private async Task LeaveFromHomeAsync(
-            Microsoft.Maui.Controls.Shapes.Rectangle target,
+            Microsoft.Maui.Controls.Image target,
             double startX,
             double startY,
             double endX,
@@ -358,7 +358,7 @@ namespace MauiApp1
         }
 
         private async Task AriveTo1BaseAsync(
-            Microsoft.Maui.Controls.Shapes.Rectangle target,
+            Microsoft.Maui.Controls.Image target,
             double startX,
             double startY,
             double endX,
